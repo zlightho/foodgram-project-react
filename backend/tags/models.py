@@ -1,11 +1,12 @@
+from enum import unique
 from django.core.validators import RegexValidator
 from django.db import models
-from colorfield.fields import 
+from colorfield.fields import ColorField
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    # color =  models.color
+    color = ColorField(unique=True)
     slug = models.SlugField(
         unique=True,
         validators=[
