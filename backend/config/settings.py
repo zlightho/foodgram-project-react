@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "users",
     "djoser",
     "core",
+    "django_filters",
 ]
 
 REST_FRAMEWORK = {
