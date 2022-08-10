@@ -60,6 +60,21 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "users.User"
 
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "SEND_ACTIVATION_EMAIL": False,
+    "PASSWORD_RESET_CONFIRM_URL": "set_password/{uid}/{token}",
+    "SERIALIZERS": {
+        "user": "users.serializers.UserSerializer",
+        "current_user": "users.serializers.UserSerializer",
+    },
+    "PERMISSIONS": {
+        "user": ("rest_framework.permissions.AllowAny",),
+        "user_list": ("rest_framework.permissions.AllowAny",),
+    },
+    "HIDE_USERS": False,
+}
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
