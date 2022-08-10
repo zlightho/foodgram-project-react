@@ -1,11 +1,8 @@
-from requests import request
 from rest_framework import serializers
 
 from ..tags.serialisers import TagSerializer
-
 from ..users.serializers import UserSerializer
-
-from .models import Ingredient, Recipe, IngredientRecipe, Cart, Favorite
+from .models import Cart, Favorite, Ingredient, IngredientRecipe, Recipe
 
 
 class IngredientSerializer(serializers.ModelSerializer):

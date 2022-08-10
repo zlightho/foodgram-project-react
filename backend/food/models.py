@@ -44,10 +44,12 @@ class IngredientRecipe(models.Model):
 class Favorite(models.Model):
     user = models.ForeignKey(User, related_name="favorites")
     recipe = models.ForeignKey(Recipe, related_name="favorites")
-        class Meta:
+
+    class Meta:
         constraints = models.constraints.UniqueConstraint(
             fields=("user", "recipe"), name="unique_favorite"
         )
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User, related_name="carts")
