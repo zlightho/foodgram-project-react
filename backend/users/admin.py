@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import User
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    fields = ("id", "username", "first_name", "last_name", "email")
+    list_filter = ("username", "email")
