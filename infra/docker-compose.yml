@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 services:
   db:
     image: postgres:14.3-alpine
@@ -23,7 +23,6 @@ services:
   frontend:
     image: a8158d7bb42c/foodgram_frontend:latest
     volumes:
-      - ../frontend/:/app/result_build/
       - ../frontend/:/app/result_build/
     depends_on:
       - db
