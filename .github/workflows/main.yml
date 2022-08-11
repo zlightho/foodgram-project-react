@@ -39,7 +39,7 @@ jobs:
           context: ./backend/
           file: ./backend/Dockerfile
           push: true
-          tags: marlooooo/foodgram_backend:latest
+          tags: a8158d7bb42c/foodgram_backend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,13 +48,14 @@ jobs:
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.           }}
+          host: ${{ secrets.HOST}}
           username: ${{ secrets.USER }}
-          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSWORD }}
           port: 22
           script: |
             sudo docker-compose down
-            sudo docker pull marlooooo/foodgram_backend:latest
+            sudo docker pull a8158d7bb42c/foodgram_backend:latest
             rm .env
             touch .env
             echo DEBUG=False >> .env
