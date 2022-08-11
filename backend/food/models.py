@@ -46,8 +46,10 @@ class Favorite(models.Model):
     recipe = models.ForeignKey(Recipe, related_name="favorites")
 
     class Meta:
-        constraints = models.constraints.UniqueConstraint(
-            fields=("user", "recipe"), name="unique_favorite"
+        constraints = (
+            models.constraints.UniqueConstraint(
+                fields=("user", "recipe"), name="unique_favorite"
+            ),
         )
 
 
@@ -56,6 +58,8 @@ class Cart(models.Model):
     recipe = models.ForeignKey(Recipe, related_name="carts")
 
     class Meta:
-        constraints = models.constraints.UniqueConstraint(
-            fields=("user", "recipe"), name="unique_cart"
+        constraints = (
+            models.constraints.UniqueConstraint(
+                fields=("user", "recipe"), name="unique_cart"
+            ),
         )
