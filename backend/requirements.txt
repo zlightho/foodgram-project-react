@@ -11,10 +11,13 @@ coreschema==0.0.4
 cryptography==37.0.4
 defusedxml==0.7.1
 Django==4.1
+django-colorfield==0.7.2
+django-filter==22.1
 django-templated-mail==1.1.1
 djangorestframework==3.13.1
 djangorestframework-simplejwt==4.7.2
 djoser==2.1.0
+drf-extra-fields==3.4.0
 flake8==5.0.4
 idna==3.3
 itypes==1.2.0
@@ -24,6 +27,7 @@ mccabe==0.7.0
 mypy-extensions==0.4.3
 oauthlib==3.2.0
 pathspec==0.9.0
+Pillow==9.2.0
 platformdirs==2.5.2
 pycodestyle==2.9.1
 pycparser==2.21
@@ -42,6 +46,3 @@ typing_extensions==4.3.0
 tzdata==2022.1
 uritemplate==4.1.1
 urllib3==1.26.11
-psycopg2-binary==2.9.3
-python-dotenv==0.20.0
-gunicorn==20.1.0
