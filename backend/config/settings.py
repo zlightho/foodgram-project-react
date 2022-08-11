@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import ossaudiodev
 from pathlib import Path
 from datetime import timedelta
 
@@ -27,7 +28,14 @@ SECRET_KEY = (
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", True) != "False"
+if DEBUG:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/"),)
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "backend_static/")
 
 ALLOWED_HOSTS = []
 
@@ -160,7 +168,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "/backend_static/"
+MEDIA_URL = "/backend_media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "backend_media/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
