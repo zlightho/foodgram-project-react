@@ -7,7 +7,14 @@ class UserSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
-        fields = "__all__"
+        fields = (
+            "id",
+            "is_subscribed",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+        )
         model = User
 
     def get_is_subscribed(self, object):
