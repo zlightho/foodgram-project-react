@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.core.validators import MinValueValidator
 from django.db import models
 from tags.models import Tag
