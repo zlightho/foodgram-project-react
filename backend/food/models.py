@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.core.validators import MinValueValidator
 from django.db import models
 from tags.models import Tag
@@ -14,7 +15,8 @@ class Ingredient(models.Model):
                 fields=(
                     "measurement_unit",
                     "name",
-                )
+                ),
+                name="Ингредиенты",
             ),
         )
 
@@ -28,7 +30,7 @@ class Recipe(models.Model):
     name = models.CharField(max_length=200)
     text = models.TextField()
     cooking_time = models.PositiveSmallIntegerField(
-        validators=MinValueValidator(1, "Время приготовления меньше минуты")
+        validators=(MinValueValidator(1, "Время приготовления меньше минуты"),)
     )
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="recipes"
@@ -37,13 +39,21 @@ class Recipe(models.Model):
 
 class IngredientRecipe(models.Model):
     amount = models.PositiveIntegerField()
-    ingredient = models.ForeignKey(Ingredient, related_name="ingredientrecipe")
-    recipe = models.ForeignKey(Recipe, related_name="ingredientrecipe")
+    ingredient = models.ForeignKey(
+        Ingredient, related_name="ingredientrecipe", on_delete=models.CASCADE
+    )
+    recipe = models.ForeignKey(
+        Recipe, related_name="ingredientrecipe", on_delete=models.CASCADE
+    )
 
 
 class Favorite(models.Model):
-    user = models.ForeignKey(User, related_name="favorites")
-    recipe = models.ForeignKey(Recipe, related_name="favorites")
+    user = models.ForeignKey(
+        User, related_name="favorites", on_delete=models.CASCADE
+    )
+    recipe = models.ForeignKey(
+        Recipe, related_name="favorites", on_delete=models.CASCADE
+    )
 
     class Meta:
         constraints = (
@@ -54,8 +64,12 @@ class Favorite(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, related_name="carts")
-    recipe = models.ForeignKey(Recipe, related_name="carts")
+    user = models.ForeignKey(
+        User, related_name="carts", on_delete=models.CASCADE
+    )
+    recipe = models.ForeignKey(
+        Recipe, related_name="carts", on_delete=models.CASCADE
+    )
 
     class Meta:
         constraints = (
