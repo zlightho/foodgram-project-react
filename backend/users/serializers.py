@@ -21,4 +21,4 @@ class UserSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request is None or request.user.is_anonymous:
             return False
-        return Follow.objects.filter(author=object, user=request.user)
+        return Follow.objects.filter(following=object, user=request.user)
