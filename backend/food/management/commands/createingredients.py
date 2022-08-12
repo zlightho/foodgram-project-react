@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from food.models import Ingredient
 
-FILES = os.path.join(settings.BASE_DIR), "data/ingredients.json"
+FILES = os.path.join(settings.BASE_DIR, "data/ingredients.json")
 
 
 class Command(BaseCommand):
