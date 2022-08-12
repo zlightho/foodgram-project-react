@@ -1,17 +1,24 @@
 from django.http.response import HttpResponse
-from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework.mixins import ListModelMixin
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
+from rest_framework.viewsets import (
+    GenericViewSet,
+    ModelViewSet,
+    ReadOnlyModelViewSet,
+)
+from users.models import User
 
+from .filters import IngredientFilter, RecipeFilter
+from .models import Cart, Favorite, Ingredient, Recipe
+from .permissions import RecipePermission
 from .serializers import (
     GetRecipeSerializer,
     IngredientSerializer,
     RecipeSerializer,
+    UserRecipeSerializer,
 )
-from .models import Favorite, Ingredient, Recipe, Cart
-from .filters import IngredientFilter, RecipeFilter
-from .permissions import RecipePermission
 from .utils import helper_model_create_delete
 
 
@@ -90,3 +97,11 @@ class ReceptViewSet(ModelViewSet):
             "Content-Disposition"
         ] = 'attachment; filename="shopping_cart.txt"'
         return response
+
+
+class GetSubscribtionsViewset(ListModelMixin, GenericViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserRecipeSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(following__user=self.request.user)
