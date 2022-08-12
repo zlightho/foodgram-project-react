@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from drf_extra_fields.fields import Base64ImageField
 
-from ..tags.serialisers import TagSerializer
-from ..users.serializers import UserSerializer
+from tags.serialisers import TagSerializer
+from users.serializers import UserSerializer
 from .models import Cart, Favorite, Ingredient, IngredientRecipe, Recipe
-from ..tags.models import Tag
+from tags.models import Tag
 from django.db.transaction import atomic
 
 
