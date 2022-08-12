@@ -102,7 +102,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
-    id = serializers.PrimaryKeyRelatedField(source="ingredient")
+    id = serializers.PrimaryKeyRelatedField(
+        source="ingredient", read_only=True
+    )
     name = serializers.SlugRelatedField(
         source="ingredient", slug_field="name", read_only=True
     )
