@@ -35,7 +35,7 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "backend_static/")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
