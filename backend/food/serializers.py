@@ -138,7 +138,7 @@ class GetRecipeSerializer(serializers.ModelSerializer):
             return False
         return Cart.objects.filter(recipe=object, user=request.user)
 
-    def get_is_in_favorited(self, object):
+    def get_is_favorited(self, object):
         request = self.context.get("request")
         if request is None or request.user.is_anonymous:
             return False
