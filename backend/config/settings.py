@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "django_filters",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://*", "https://*"]
+CSRF_TRUSTED_ORIGINS = ["http://84.252.138.205", "https://84.252.138.205"]
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
