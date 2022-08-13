@@ -48,8 +48,8 @@ class ReceptViewSet(ModelViewSet):
         methods=("DELETE", "POST"),
         permission_classes=(IsAuthenticated,),
     )
-    def favorite_recipe(self, request, pk):
-        return helper_model_create_delete(request, Favorite, pk)
+    def favorite_recipe(self, request, id):
+        return helper_model_create_delete(request, Favorite, id)
 
     @action(
         url_path="shopping_cart",
@@ -57,8 +57,8 @@ class ReceptViewSet(ModelViewSet):
         methods=("DELETE", "POST"),
         permission_classes=(IsAuthenticated,),
     )
-    def shopping_cart(self, request, pk):
-        return helper_model_create_delete(request, Cart, pk)
+    def shopping_cart(self, request, id):
+        return helper_model_create_delete(request, Cart, id)
 
     @action(
         url_path="download_shopping_cart",
