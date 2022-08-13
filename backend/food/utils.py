@@ -10,5 +10,5 @@ def helper_model_create_delete(request, model, pk):
     if request.method.lower() == "delete":
         model.objects.get(user=request.user, recipe=recipe)
         return Response(status=204)
-    model.object.get_or_create(user=request.user, recipe=recipe)
+    model.objects.get_or_create(user=request.user, recipe=recipe)
     return Response(RecipeShortSerializer(recipe, many=False).data, status=201)
