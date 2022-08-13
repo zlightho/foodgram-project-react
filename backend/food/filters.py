@@ -1,7 +1,7 @@
 import django_filters
 from requests import request
 
-from backend.tags.models import Tag
+from tags.models import Tag
 from .models import Ingredient, Recipe
 
 
