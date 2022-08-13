@@ -129,6 +129,7 @@ class GetRecipeSerializer(serializers.ModelSerializer):
     is_favorited = serializers.SerializerMethodField()
 
     class Meta:
+        model = Recipe
         exclude = ("pub_date",)
 
     def get_is_in_shopping_cart(self, object):
