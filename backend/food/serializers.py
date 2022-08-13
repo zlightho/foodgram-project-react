@@ -180,6 +180,8 @@ class UserRecipeSerializer(serializers.ModelSerializer):
             )
         except AttributeError:
             limit = None
+        except TypeError:
+            limit = None
         if limit is None:
             recipes = obj.recipes.all()
         else:
