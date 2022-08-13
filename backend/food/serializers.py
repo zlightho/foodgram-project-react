@@ -179,6 +179,8 @@ class UserRecipeSerializer(serializers.ModelSerializer):
                 request.parser_context.get("request").GET.get("recipes_limit")
             )
         except AttributeError:
+            limit = None
+        if limit is None:
             recipes = obj.recipes.all()
         else:
             recipes = obj.recipes.all()[:limit]
