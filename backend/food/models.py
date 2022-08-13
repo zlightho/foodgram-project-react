@@ -34,6 +34,10 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="recipes"
     )
+    pub_date = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ("-pub_date",)
 
 
 class IngredientRecipe(models.Model):
