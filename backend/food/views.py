@@ -19,7 +19,7 @@ from .serializers import (
     RecipeSerializer,
     UserRecipeSerializer,
 )
-from .utils import helper_model_create_delete
+from .utils import get_shopping_cart_recipes, helper_model_create_delete
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):
@@ -67,28 +67,7 @@ class ReceptViewSet(ModelViewSet):
         permission_classes=(IsAuthenticated,),
     )
     def download_shopping_cart(self, request):
-        carts = request.user.carts.all()
-        shopping_dict = {}
-        for cart in carts:
-            for ingredient_recipe in cart.recipe.ingredientrecipe.all():
-                amount = ingredient_recipe.amount
-                name = ingredient_recipe.ingredient.name
-                measurement_unit = (
-                    ingredient_recipe.ingredient.measurement_unit
-                )
-                if name in shopping_dict:
-                    shopping_dict[name]["amount"] += amount
-                else:
-                    shopping_dict[name] = {
-                        "amount": amount,
-                        "measurement_unit": measurement_unit,
-                    }
-
-        shopping_list = []
-        for name, data in shopping_dict.items():
-            shopping_list.append(
-                f"{name} {data['amount']} {data['measurement_unit']}\n"
-            )
+        shopping_list = get_shopping_cart_recipes(request)
         response = HttpResponse(
             shopping_list,
             "Content-Type: text/plain",

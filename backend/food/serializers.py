@@ -3,7 +3,7 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from tags.models import Tag
 from tags.serialisers import TagSerializer
-from users.models import User, Follow
+from users.models import Follow, User
 from users.serializers import UserSerializer
 
 from .models import Cart, Favorite, Ingredient, IngredientRecipe, Recipe
@@ -97,6 +97,25 @@ class RecipeSerializer(serializers.ModelSerializer):
         self.bulk_create_ingredients(instance, ingredients)
         return super().update(instance, validated_data)
 
+    def validate_ingredients(self, attrs):
+        validated = []
+        for ingredient in attrs:
+            if ingredient["amount"] < 1:
+                raise serializers.ValidationError("Меньеше одного ингридиента")
+            if ingredient in validated:
+                raise serializers.ValidationError(
+                    "Ингредиенты не должны повторяться"
+                )
+            validated.append(ingredient)
+        return attrs
+
+    def validate_cooking_time(self, attrs):
+        if int(attrs) < 1:
+            raise serializers.ValidationError(
+                "Время приготовления меньше минуты"
+            )
+        return attrs
+
     def to_representation(self, instance):
         return GetRecipeSerializer(
             instance, context={"request": self.context.get("request")}
@@ -149,7 +168,7 @@ class GetRecipeSerializer(serializers.ModelSerializer):
 
 class UserRecipeSerializer(serializers.ModelSerializer):
     recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.SerializerMethodField()
+    recipes_count = serializers.IntegerField(source="recipes__count")
     is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
@@ -190,9 +209,6 @@ class UserRecipeSerializer(serializers.ModelSerializer):
         else:
             recipes = obj.recipes.all()[:limit]
         return RecipeShortSerializer(recipes, many=True).data
-
-    def get_recipes_count(self, obj):
-        return obj.recipes.count()
 
     def get_is_subscribed(self, obj):
         request = self.context.get("request")
