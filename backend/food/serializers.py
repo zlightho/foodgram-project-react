@@ -97,24 +97,25 @@ class RecipeSerializer(serializers.ModelSerializer):
         self.bulk_create_ingredients(instance, ingredients)
         return super().update(instance, validated_data)
 
-    def validate_ingredients(self, attrs):
-        validated = []
-        for ingredient in attrs:
+    def validate(self, data):
+        validated_ingredients = []
+        for ingredient in data.get("ingredients"):
             if ingredient["amount"] < 1:
                 raise serializers.ValidationError("Меньше одного ингредиента")
-            if ingredient in validated:
+            if ingredient in validated_ingredients:
                 raise serializers.ValidationError(
                     "Ингредиенты не должны повторяться"
                 )
-            validated.append(ingredient)
-        return attrs
-
-    def validate_cooking_time(self, attrs):
-        if int(attrs) < 1:
+            validated_ingredients.append(ingredient)
+        if int(data.get("cooking_time")) < 1:
             raise serializers.ValidationError(
                 "Время приготовления меньше минуты"
             )
-        return attrs
+        if len(validated_ingredients) < 1:
+            raise serializers.ValidationError("Не переданы ингредиенты")
+        if len(data.get("tags")) < 1:
+            raise serializers.ValidationError("Не переданы тэги")
+        return data
 
     def to_representation(self, instance):
         return GetRecipeSerializer(
