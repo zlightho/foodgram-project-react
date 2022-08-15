@@ -1,11 +1,11 @@
 from django.db.transaction import atomic
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
+
 from tags.models import Tag
 from tags.serialisers import TagSerializer
 from users.models import Follow, User
 from users.serializers import UserSerializer
-
 from .models import Cart, Favorite, Ingredient, IngredientRecipe, Recipe
 
 
@@ -101,7 +101,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         validated = []
         for ingredient in attrs:
             if ingredient["amount"] < 1:
-                raise serializers.ValidationError("Меньеше одного ингридиента")
+                raise serializers.ValidationError("Меньше одного ингредиента")
             if ingredient in validated:
                 raise serializers.ValidationError(
                     "Ингредиенты не должны повторяться"

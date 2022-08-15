@@ -8,8 +8,8 @@ from rest_framework.viewsets import (
     ModelViewSet,
     ReadOnlyModelViewSet,
 )
-from users.models import User
 
+from users.models import User
 from .filters import IngredientFilter, RecipeFilter
 from .models import Cart, Favorite, Ingredient, Recipe
 from .permissions import RecipePermission
