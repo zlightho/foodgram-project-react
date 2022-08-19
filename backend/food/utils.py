@@ -19,7 +19,7 @@ def helper_model_create_delete(request, model, pk):
 def get_shopping_cart_recipes(request):
     shopping_items = (
         IngredientRecipe.objects.annotate(
-            _sum=Sum("ingredient__recipe__amount")
+            _sum=Sum("ingredient__ingredientrecipe__amount")
         )
         .values("_sum", "ingredient__name", "ingredient__measurement_unit")
         .filter(recipe__carts__user=request.user)
