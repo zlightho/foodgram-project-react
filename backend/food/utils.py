@@ -28,6 +28,6 @@ def get_shopping_cart_recipes(request):
     for item in shopping_items:
         shopping_list.append(
             f"{item['ingredient__name']} {item['_sum']}"
-            f" {item['igredient__measurement_unit']}"
+            f" {item['ingredient__measurement_unit']}"
         )
     return set(shopping_list)
