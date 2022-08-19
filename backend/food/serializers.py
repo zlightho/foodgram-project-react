@@ -169,7 +169,7 @@ class GetRecipeSerializer(serializers.ModelSerializer):
 
 class UserRecipeSerializer(serializers.ModelSerializer):
     recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.IntegerField(source="recipes__count")
+    recipes_count = serializers.IntegerField(source="recipes.count")
     is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
