@@ -108,9 +108,9 @@ class RecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     "Ингредиенты должны быть уникальными"
                 )
+            validated_ingredients.append(ingredient)
             if ingredient["amount"] < 1:
                 raise serializers.ValidationError("Меньше одного ингредиента")
-            validated_ingredients.append(ingredient)
         if int(data.get("cooking_time")) < 1:
             raise serializers.ValidationError(
                 "Время приготовления меньше минуты"
