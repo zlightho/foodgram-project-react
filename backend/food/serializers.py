@@ -1,4 +1,5 @@
 from django.db.transaction import atomic
+from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
@@ -99,24 +100,39 @@ class RecipeSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def validate(self, data):
-        validated_ingredients = []
-        validated_ingredient_ingredient = []
-        for ingredient in data.get("ingredients"):
-            if ingredient["ingredient"] in validated_ingredient_ingredient:
+        ingredients = self.initial_data.get("ingredients")
+        if not ingredients:
+            raise serializers.ValidationError(
+                {"ingredients": "Нужен хоть один ингридиент для рецепта"}
+            )
+        ingredient_list = []
+        for ingredient_item in ingredients:
+            ingredient = get_object_or_404(
+                Ingredient, id=ingredient_item["id"]
+            )
+            if ingredient in ingredient_list:
                 raise serializers.ValidationError(
-                    {"ingredients": "Такой ингредиент уже выбран!"}
+                    "Ингридиенты должны " "быть уникальными"
                 )
-            validated_ingredients.append(ingredient["ingredient"])
-            if ingredient["amount"] < 1:
-                raise serializers.ValidationError("Меньше одного ингредиента")
+            ingredient_list.append(ingredient)
+            if int(ingredient_item["amount"]) < 0:
+                raise serializers.ValidationError(
+                    {
+                        "ingredients": (
+                            "Убедитесь, что значение количества "
+                            "ингредиента больше 0"
+                        )
+                    }
+                )
         if int(data.get("cooking_time")) < 1:
             raise serializers.ValidationError(
                 "Время приготовления меньше минуты"
             )
-        if len(validated_ingredients) < 1:
+        if len(ingredient_list) < 1:
             raise serializers.ValidationError("Не переданы ингредиенты")
         if len(data.get("tags")) < 1:
             raise serializers.ValidationError("Не переданы тэги")
+        data["ingredients"] = ingredients
         return data
 
     def to_representation(self, instance):
