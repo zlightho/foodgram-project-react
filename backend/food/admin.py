@@ -45,8 +45,8 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ("author", "name", "tags")
 
     @admin.display()
-    def count_favorites(self):
-        return self.favorites.count()
+    def count_favorites(self, obj):
+        return obj.favorites.count()
 
 
 @admin.register(IngredientRecipe)
