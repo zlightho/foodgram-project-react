@@ -102,7 +102,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         for ingredient in data.get("ingredients"):
             if ingredient["amount"] < 1:
                 raise serializers.ValidationError("Меньше одного ингредиента")
-            if ingredient in validated_ingredients:
+            if ingredient["ingredients"] in validated_ingredients:
                 raise serializers.ValidationError(
                     "Ингредиенты не должны повторяться"
                 )
