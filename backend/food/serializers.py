@@ -106,7 +106,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             ingredient = get_object_or_404(Ingredient, id=ingredient["id"])
             if ingredient in validated_ingredients:
                 raise serializers.ValidationError(
-                    "Ингридиенты должны " "быть уникальными"
+                    "Ингредиенты должны быть уникальными"
                 )
             if ingredient["amount"] < 1:
                 raise serializers.ValidationError("Меньше одного ингредиента")
