@@ -1,4 +1,5 @@
 from django.db.transaction import atomic
+from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
@@ -6,6 +7,7 @@ from tags.models import Tag
 from tags.serialisers import TagSerializer
 from users.models import Follow, User
 from users.serializers import UserSerializer
+
 from .models import Cart, Favorite, Ingredient, IngredientRecipe, Recipe
 
 
@@ -98,14 +100,16 @@ class RecipeSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def validate(self, data):
+        ingredients = self.initial_data.get("ingredients")
         validated_ingredients = []
-        for ingredient in data.get("ingredients"):
+        for ingredient in ingredients:
+            ingredient = get_object_or_404(Ingredient, id=ingredient["id"])
+            if ingredient in ingredients:
+                raise serializers.ValidationError(
+                    "Ингридиенты должны " "быть уникальными"
+                )
             if ingredient["amount"] < 1:
                 raise serializers.ValidationError("Меньше одного ингредиента")
-            if ingredient["ingredients"] in validated_ingredients:
-                raise serializers.ValidationError(
-                    "Ингредиенты не должны повторяться"
-                )
             validated_ingredients.append(ingredient)
         if int(data.get("cooking_time")) < 1:
             raise serializers.ValidationError(
