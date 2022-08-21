@@ -102,12 +102,12 @@ class RecipeSerializer(serializers.ModelSerializer):
     def validate(self, data):
         ingredients = self.initial_data.get("ingredients")
         validated_ingredients = []
-         for ingredient in ingredients:
-            ingredient_id = ingredient['id']
+        for ingredient in ingredients:
+            ingredient_id = ingredient["id"]
             if ingredient in validated_ingredients:
-                raise serializers.ValidationError({
-                    'ingredients': 'Такой ингредиент уже выбран!'
-                })
+                raise serializers.ValidationError(
+                    {"ingredients": "Такой ингредиент уже выбран!"}
+                )
             validated_ingredients.append(ingredient_id)
             if ingredient["amount"] < 1:
                 raise serializers.ValidationError("Меньше одного ингредиента")
