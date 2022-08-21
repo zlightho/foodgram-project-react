@@ -104,7 +104,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         validated_ingredients = []
         for ingredient in ingredients:
             ingredient = get_object_or_404(Ingredient, id=ingredient["id"])
-            if ingredient in ingredients:
+            if ingredient in validated_ingredients:
                 raise serializers.ValidationError(
                     "Ингридиенты должны " "быть уникальными"
                 )
