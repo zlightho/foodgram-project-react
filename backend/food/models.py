@@ -41,9 +41,8 @@ class Recipe(models.Model):
         ordering = ("-pub_date",)
 
     def clean(self):
-        ingredients = self.ingredients
         validated_ingredients = []
-        for ingredient in ingredients:
+        for ingredient in self.ingredients:
             if ingredient.ingredient.id in validated_ingredients:
                 raise models.ValidationError(
                     "Ингредиенты не должны повторяться"
