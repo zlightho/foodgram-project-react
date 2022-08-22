@@ -44,11 +44,11 @@ class Recipe(models.Model):
         ingredients = self.ingredients
         validated_ingredients = []
         for ingredient in ingredients:
-            if ingredient.ingredient in validated_ingredients:
+            if ingredient.ingredient.id in validated_ingredients:
                 raise models.ValidationError(
                     "Ингредиенты не должны повторяться"
                 )
-            validated_ingredients.append(ingredient.ingredient)
+            validated_ingredients.append(ingredient.ingredient.id)
 
 
 class IngredientRecipe(models.Model):
