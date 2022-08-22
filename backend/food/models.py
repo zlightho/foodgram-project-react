@@ -40,6 +40,16 @@ class Recipe(models.Model):
     class Meta:
         ordering = ("-pub_date",)
 
+    def clean(self):
+        ingredients = self.ingredients
+        validated_ingredients = []
+        for ingredient in ingredients:
+            if ingredient.ingredient in validated_ingredients:
+                raise models.ValidationError(
+                    "Ингредиенты не должны повторяться"
+                )
+            validated_ingredients.append(ingredient.ingredient)
+
 
 class IngredientRecipe(models.Model):
     amount = models.PositiveIntegerField()
